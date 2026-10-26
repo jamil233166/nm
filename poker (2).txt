@@ -1,0 +1,425 @@
+Bankers:(pos)
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    double num, temp, factor = 1, answer;
+    int n, nextDigit;
+    long long mainPart;
+
+    cout << "Enter number: ";
+    cin >> num;
+
+    cout << "Enter significant digits: ";
+    cin >> n;
+
+    temp = num;
+
+    // Make number between 1 and 10
+    while (temp >= 10)
+    {
+        temp = temp / 10;
+        factor = factor / 10;
+    }
+
+    while (temp < 1)
+    {
+        temp = temp * 10;
+        factor = factor * 10;
+    }
+
+    // Move n significant digits before decimal
+    for (int i = 1; i < n; i++)
+    {
+        temp = temp * 10;
+        factor = factor * 10;
+    }
+
+    mainPart = (long long)temp;
+
+    // Find next digit
+    nextDigit = (int)(temp * 10) % 10;
+
+    // Banker's rounding
+    if (nextDigit < 5)
+    {
+        // no change
+    }
+    else if (nextDigit > 5)
+    {
+        mainPart++;
+    }
+    else
+    {
+        if (mainPart % 2 != 0)
+        {
+            mainPart++;
+        }
+    }
+
+    answer = mainPart / factor;
+
+    cout << "Rounded value = " << answer << endl;
+
+    return 0;
+}
+
+
+
+Bankers: (Neg)
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    double num, temp, factor = 1, answer;
+    int n, nextDigit;
+    long long mainPart;
+    bool negative = false;
+
+    cout << "Enter number: ";
+    cin >> num;
+
+    cout << "Enter significant digits: ";
+    cin >> n;
+
+    // Check negative number
+    if (num < 0)
+    {
+        negative = true;
+        num = -num;
+    }
+
+    temp = num;
+
+    // Make number between 1 and 10
+    while (temp >= 10)
+    {
+        temp = temp / 10;
+        factor = factor / 10;
+    }
+
+    while (temp < 1)
+    {
+        temp = temp * 10;
+        factor = factor * 10;
+    }
+
+    // Move n significant digits
+    for (int i = 1; i < n; i++)
+    {
+        temp = temp * 10;
+        factor = factor * 10;
+    }
+
+    mainPart = (long long)temp;
+
+    nextDigit = (int)(temp * 10) % 10;
+
+    // Banker's rounding
+    if (nextDigit < 5)
+    {
+        // no change
+    }
+    else if (nextDigit > 5)
+    {
+        mainPart++;
+    }
+    else
+    {
+        if (mainPart % 2 != 0)
+        {
+            mainPart++;
+        }
+    }
+
+    answer = mainPart / factor;
+
+    // Return negative sign
+    if (negative == true)
+    {
+        answer = -answer;
+    }
+
+    cout << "Rounded value = " << answer << endl;
+
+    return 0;
+}
+
+
+Honers:
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int n;
+    double a[100], x, result;
+
+    // Step 1: Degree input
+    cout << "Enter degree of polynomial: ";
+    cin >> n;
+
+    // Step 2: Coefficients input
+    cout << "Enter coefficients from highest degree to constant term:\n";
+
+    for (int i = 0; i <= n; i++)
+    {
+        cin >> a[i];
+    }
+
+    // Step 3: Value of x
+    cout << "Enter value of x: ";
+    cin >> x;
+
+    // Step 4: Start with first coefficient
+    result = a[0];
+
+    // Step 5: Apply Horner's Rule
+    for (int i = 1; i <= n; i++)
+    {
+        result = result * x + a[i];
+    }
+
+    // Step 6: Print result
+    cout << "f(" << x << ") = " << result << endl;
+
+    return 0;
+}
+
+
+Bisection:
+
+#include <iostream>
+using namespace std;
+
+double f(double x)
+{
+    return x*x*x - x - 1;
+}
+
+int main()
+{
+    double a, b, c, e;
+
+    cout << "Enter a: ";
+    cin >> a;
+
+    cout << "Enter b: ";
+    cin >> b;
+
+    cout << "Enter tolerance: ";
+    cin >> e;
+
+    // Check root exists or not
+    if (f(a) * f(b) > 0)
+    {
+        cout << "Invalid interval" << endl;
+        return 0;
+    }
+
+    // Bisection Method
+    while ((b - a) > e)
+    {
+        c = (a + b) / 2;
+
+        if (f(c) == 0)
+        {
+            break;
+        }
+
+        if (f(a) * f(c) < 0)
+        {
+            b = c;
+        }
+        else
+        {
+            a = c;
+        }
+    }
+
+    c = (a + b) / 2;
+
+    cout << "Approximate root = " << c << endl;
+
+    return 0;
+}
+
+Newton_raphson:
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// Function
+double f(double x)
+{
+    return x*x - 3*x + 2;
+}
+
+// Derivative
+double df(double x)
+{
+    return 2*x - 3;
+}
+
+int main()
+{
+    double x0, x1, e;
+
+    cout << "Enter initial guess: ";
+    cin >> x0;
+
+    cout << "Enter tolerance: ";
+    cin >> e;
+
+    while (true)
+    {
+        // Newton-Raphson formula
+        x1 = x0 - f(x0) / df(x0);
+
+        // Stopping condition
+        if (fabs(x1 - x0) < e)
+        {
+            break;
+        }
+
+        // New value becomes old value
+        x0 = x1;
+    }
+
+    cout << "Approximate root = " << x1 << endl;
+
+    return 0;
+}
+
+
+Newtoon_Forward :
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main()
+{
+    int n;
+    double x[20], y[20], diff[20][20];
+    double value, h, u, result;
+
+    cout << "Enter number of data points: ";
+    cin >> n;
+
+    cout << "Enter x values:\n";
+    for (int i = 0; i < n; i++)
+        cin >> x[i];
+
+    cout << "Enter y values:\n";
+    for (int i = 0; i < n; i++)
+        cin >> y[i];
+
+    // First difference
+    for (int i = 0; i < n; i++)
+        diff[i][0] = y[i];
+
+    // Forward difference table
+    for (int j = 1; j < n; j++)
+    {
+        for (int i = 0; i < n - j; i++)
+        {
+            diff[i][j] = diff[i + 1][j - 1]
+                       - diff[i][j - 1];
+        }
+    }
+
+    cout << "Enter value of x to find y: ";
+    cin >> value;
+
+    h = x[1] - x[0];
+    u = (value - x[0]) / h;
+
+    // Newton Forward Formula
+    result = diff[0][0];
+    double term = 1;
+
+    for (int i = 1; i < n; i++)
+    {
+        term = term * (u - (i - 1)) / i;
+        result = result + term * diff[0][i];
+    }
+
+    cout << "Interpolated value = " << result << endl;
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////
+newton rupson updated:
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// Function
+double f(double x)
+{
+    return x*x - 3*x + 2;
+}
+
+// Derivative
+double df(double x)
+{
+    return 2*x - 3;
+}
+
+int main()
+{
+    double x0, x1, e;
+
+    cout << "Enter initial guess: ";
+    cin >> x0;
+
+    cout << "Enter tolerance: ";
+    cin >> e;
+
+    while (true)
+    {
+        // Check if derivative is zero
+        if (df(x0) == 0)
+        {
+            cout << "Invalid" << endl;
+            return 0;
+        }
+
+        // Newton-Raphson formula
+        x1 = x0 - f(x0) / df(x0);
+
+        // Stopping condition
+        if (fabs(x1 - x0) < e)
+        {
+            break;
+        }
+
+        // New value becomes old value
+        x0 = x1;
+    }
+
+    cout << "Approximate root = " << x1 << endl;
+
+    return 0;
+}
+
